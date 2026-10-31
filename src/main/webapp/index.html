@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2b">
+  <title>Parcel — Logistics command center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div id="toast" class="toast" role="status"></div>
+  <div id="login-screen" class="login-screen">
+    <div class="login-visual">
+      <div class="login-brand"><span class="brand-mark">P</span> parcel<span class="brand-dot">.</span></div>
+      <div class="login-copy">
+        <span class="eyebrow"><span class="pulse"></span> LOGISTICS, IN MOTION</span>
+        <h1>Every delivery.<br><span>In good hands.</span></h1>
+        <p>One calm, clear view of your entire operation — from warehouse floor to front door.</p>
+      </div>
+      <div class="login-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="art-pin">↗</div><div class="art-route"></div><div class="art-dot"></div></div>
+      <div class="login-foot">SMART LOGISTICS PLATFORM <span>•</span> BUILT TO MOVE</div>
+    </div>
+    <div class="login-panel">
+      <form id="login-form" class="login-form">
+        <span class="eyebrow muted">WELCOME BACK</span>
+        <h2>Sign in to your workspace</h2>
+        <p class="form-intro">Your operation is right where you left it.</p>
+        <label for="username">Username</label>
+        <input id="username" name="username" autocomplete="username" required placeholder="e.g. alex.morgan">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password">
+        <div id="login-error" class="form-error" aria-live="polite"></div>
+        <button class="button button-primary login-submit" type="submit">Sign in <span>→</span></button>
+        <div class="login-secure"><span>◈</span> Secure access · Role-based workspace</div>
+      </form>
+    </div>
+  </div>
+
+  <div id="app" class="app-shell hidden">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">P</span> parcel<span class="brand-dot">.</span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">⌂</span> Overview</button>
+        <button class="nav-item" data-view="orders"><span class="nav-icon">▤</span> Orders</button>
+        <button class="nav-item" data-view="shipments"><span class="nav-icon">↗</span> Shipments <span id="nav-active-count" class="nav-count">—</span></button>
+        <button class="nav-item" data-view="inventory"><span class="nav-icon">▦</span> Inventory</button>
+        <button class="nav-item" data-view="fleet"><span class="nav-icon">▰</span> Fleet &amp; drivers</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="support-card"><span class="support-orb">✳</span><strong>Need a hand?</strong><span>Your operations, one step ahead.</span></div>
+        <div class="profile">
+          <div class="avatar" id="avatar-initials">—</div>
+          <div class="profile-text"><strong id="profile-name">Loading</strong><span id="profile-role">—</span></div>
+          <button id="logout-button" class="icon-button" title="Sign out" aria-label="Sign out">↗</button>
+        </div>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="page-title">Overview</strong></div>
+        <div class="top-actions"><span class="live-status"><i></i> Systems operational</span><div class="top-date" id="today-date"></div><div class="top-avatar" id="top-avatar">P</div></div>
+      </header>
+      <section id="view-overview" class="view">
+        <div class="page-heading"><div><span class="eyebrow muted">YOUR NETWORK, AT A GLANCE</span><h1>Good morning, <span id="greeting-name">there</span> <span class="wave">✳</span></h1><p>Here’s what’s happening across your network today.</p></div><div class="heading-actions"><button id="new-order" class="button button-quiet">＋ New order</button><button id="new-shipment" class="button button-primary"><span>＋</span> New shipment</button></div></div>
+        <div class="metric-grid">
+          <article class="metric-card"><div class="metric-top"><span>Open orders</span><span class="metric-icon peach">↗</span></div><div id="metric-orders" class="metric-value">—</div><div class="metric-foot"><span class="metric-tag">IN THE PIPELINE</span><span>Pending <b id="metric-pending">—</b></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>On the move</span><span class="metric-icon blue">⌁</span></div><div id="metric-active" class="metric-value">—</div><div class="metric-foot"><span class="status-dot blue-dot"></span><span>Active shipments</span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Delivered</span><span class="metric-icon green">✓</span></div><div id="metric-delivered" class="metric-value">—</div><div class="metric-foot"><span class="status-dot green-dot"></span><span>Completed shipments</span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Needs attention</span><span class="metric-icon coral">!</span></div><div id="metric-delayed" class="metric-value">—</div><div class="metric-foot"><span class="warning-copy"><b id="metric-stock">—</b> items low on stock</span></div></article>
+        </div>
+        <div class="content-grid">
+          <section class="panel shipment-panel">
+            <div class="panel-heading"><div><span class="eyebrow muted">LIVE OPERATIONS</span><h2>Recent shipments</h2></div><button class="text-button" data-go="shipments">View all <span>→</span></button></div>
+            <div class="table-wrap"><table><thead><tr><th>TRACKING ID</th><th>RECIPIENT</th><th>DESTINATION</th><th>STATUS</th><th>PRIORITY</th></tr></thead><tbody id="recent-shipments"><tr><td colspan="5" class="empty-state">Loading your latest shipments…</td></tr></tbody></table></div>
+          </section>
+          <aside class="panel insight-panel"><div class="panel-heading"><div><span class="eyebrow muted">OPERATIONS PULSE</span><h2>At a glance</h2></div><span class="insight-spark">✳</span></div><div class="pulse-list"><div class="pulse-row"><span class="pulse-icon green">✓</span><div><strong>Network status</strong><small>All systems running smoothly</small></div><span class="pulse-value">Good</span></div><div class="pulse-row"><span class="pulse-icon peach">↗</span><div><strong>Delayed deliveries</strong><small>Shipments needing attention</small></div><span id="insight-delayed" class="pulse-value">—</span></div><div class="pulse-row"><span class="pulse-icon yellow">▦</span><div><strong>Stock alerts</strong><small>Items at or below reorder point</small></div><span id="insight-stock" class="pulse-value">—</span></div></div><div class="insight-note"><span>✦</span><p><strong>A little momentum goes a long way.</strong><br>Stay on top of today’s deliveries right here.</p></div></aside>
+        </div>
+      </section>
+      <section id="view-orders" class="view hidden">
+        <div class="page-heading"><div><span class="eyebrow muted">CUSTOMER FULFILMENT</span><h1>Orders</h1><p>Create customer orders and turn them into trackable shipments.</p></div><button class="button button-primary" id="new-order-alt"><span>＋</span> New order</button></div>
+        <section class="panel"><div class="panel-heading"><div><h2>Customer orders</h2><p class="panel-subtitle">Orders connected to your delivery network.</p></div></div><div class="table-wrap"><table><thead><tr><th>ORDER ID</th><th>CUSTOMER</th><th>DESTINATION</th><th>WEIGHT</th><th>PRIORITY</th><th>STATUS</th><th>CREATED</th><th></th></tr></thead><tbody id="order-rows"></tbody></table></div></section>
+      </section>
+      <section id="view-shipments" class="view hidden">
+        <div class="page-heading"><div><span class="eyebrow muted">FULFILMENT</span><h1>Shipments</h1><p>Track every parcel from dispatch to doorstep.</p></div><button class="button button-primary" id="new-shipment-alt"><span>＋</span> New shipment</button></div>
+        <section class="panel"><div class="panel-heading"><div><h2>All shipments</h2><p class="panel-subtitle">Latest 80 shipment records</p></div><input id="shipment-search" class="search-input" placeholder="Search tracking or recipient…"></div><div class="table-wrap"><table><thead><tr><th>TRACKING ID</th><th>RECIPIENT</th><th>DESTINATION</th><th>CREATED</th><th>STATUS</th><th>PRIORITY</th><th>COST</th><th>UPDATE</th></tr></thead><tbody id="all-shipments"></tbody></table></div></section>
+      </section>
+      <section id="view-inventory" class="view hidden">
+        <div class="page-heading"><div><span class="eyebrow muted">WAREHOUSE OPERATIONS</span><h1>Inventory</h1><p>Stock visibility across your warehouse network.</p></div></div>
+        <section class="panel"><div class="panel-heading"><div><h2>Stock overview</h2><p class="panel-subtitle">Adjustments are recorded directly in your inventory.</p></div></div><div class="table-wrap"><table><thead><tr><th>PRODUCT</th><th>SKU</th><th>WAREHOUSE</th><th>ON HAND</th><th>REORDER AT</th><th>STATUS</th><th>ADJUST</th></tr></thead><tbody id="inventory-rows"></tbody></table></div></section>
+      </section>
+      <section id="view-fleet" class="view hidden">
+        <div class="page-heading"><div><span class="eyebrow muted">PEOPLE &amp; VEHICLES</span><h1>Fleet &amp; drivers</h1><p>Available capacity across your delivery network.</p></div></div>
+        <div id="fleet-grid" class="fleet-grid"></div>
+        <section class="panel driver-panel"><div class="panel-heading"><div><h2>Driver roster</h2><p class="panel-subtitle">Availability across warehouse teams.</p></div></div><div class="table-wrap"><table><thead><tr><th>DRIVER</th><th>PHONE</th><th>WAREHOUSE</th><th>AVAILABILITY</th><th></th></tr></thead><tbody id="driver-rows"></tbody></table></div></section>
+        <section class="panel route-panel"><div class="panel-heading"><div><span class="eyebrow muted">AIP ROUTE PLANNER</span><h2>Find the shortest route</h2></div></div><form id="route-form" class="route-form"><label>Starting hub<select name="from"><option>Central Hub</option><option>North Hub</option><option>East Hub</option><option>West Hub</option><option>South Hub</option><option>Airport</option></select></label><span class="route-arrow">→</span><label>Destination hub<select name="to"><option>Airport</option><option>Central Hub</option><option>North Hub</option><option>East Hub</option><option>West Hub</option><option>South Hub</option></select></label><button class="button button-primary" type="submit">Optimize route <span>→</span></button></form><div id="route-result" class="route-result"></div></section>
+      </section>
+      <footer class="footer"><span>PARCEL OPERATIONS</span><span>SMARTER ROUTES. HAPPIER ARRIVALS.</span></footer>
+    </main>
+  </div>
+  <dialog id="shipment-dialog" class="modal">
+    <form id="shipment-form" class="modal-card">
+      <div class="modal-heading"><div><span class="eyebrow muted">DISPATCH DESK</span><h2>Create a shipment</h2></div><button type="button" class="icon-button modal-close" aria-label="Close">×</button></div>
+      <div class="form-grid"><label>Recipient name<input name="recipientName" required maxlength="120" placeholder="Jordan Lee"></label><label>Destination<input name="destination" required maxlength="180" placeholder="City, region"></label><label>Shipment weight (kg)<input name="weightKg" required type="number" min="0.01" step="0.01"></label><label>Route distance (km)<input name="distanceKm" required type="number" min="0.01" step="0.01"></label><label>Priority<select name="priority"><option>NORMAL</option><option>HIGH</option><option>URGENT</option></select></label><label>Vehicle preference<select name="vehicleType"><option value="">Best available fit</option><option>VAN</option><option>TRUCK</option><option>BIKE</option></select></label><label class="full-span">Link order ID <span class="optional">(optional)</span><input name="orderId" placeholder="Paste an existing order UUID"></label></div>
+      <div id="shipment-error" class="form-error"></div><div class="modal-actions"><button type="button" class="button button-quiet modal-close">Cancel</button><button type="submit" class="button button-primary">Create shipment <span>→</span></button></div>
+    </form>
+  </dialog>
+  <dialog id="order-dialog" class="modal">
+    <form id="order-form" class="modal-card">
+      <div class="modal-heading"><div><span class="eyebrow muted">CUSTOMER DESK</span><h2>Create an order</h2></div><button type="button" class="icon-button order-modal-close" aria-label="Close">×</button></div>
+      <div class="form-grid"><label>Customer name<input name="customerName" required maxlength="120" placeholder="Jordan Lee"></label><label>Destination<input name="destination" required maxlength="180" placeholder="City, region"></label><label>Total weight (kg)<input name="weightKg" required type="number" min="0.01" step="0.01"></label><label>Priority<select name="priority"><option>NORMAL</option><option>HIGH</option><option>URGENT</option></select></label></div>
+      <div id="order-error" class="form-error"></div><div class="modal-actions"><button type="button" class="button button-quiet order-modal-close">Cancel</button><button type="submit" class="button button-primary">Create order <span>→</span></button></div>
+    </form>
+  </dialog>
+  <dialog id="history-dialog" class="modal history-modal">
+    <div class="modal-card"><div class="modal-heading"><div><span class="eyebrow muted">TRACKING TIMELINE</span><h2 id="history-title">Shipment history</h2></div><button type="button" class="icon-button history-close" aria-label="Close">×</button></div><div id="history-events" class="history-events"></div></div>
+  </dialog>
+  <script src="assets/app.js"></script>
+</body>
+</html>
